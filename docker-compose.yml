@@ -1,0 +1,44 @@
+volumes:
+  # Volumen para persistir los datos de PostgreSQL de EHRbase
+  postgres_ehrbase_data: {}
+
+networks:
+  # Red para que los servicios de EHRbase se comuniquen internamente
+  ehr_network:
+    driver: bridge
+
+services:
+  # Servicio de PostgreSQL para EHRbase
+  postgres_ehrbase:
+    image: ehrbase/ehrbase-v2-postgres:16.2 # Imagen específica para PostgreSQL de EHRbase
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      EHRBASE_USER: ehrbase_restricted
+      EHRBASE_PASSWORD: ehrbase_restricted
+      EHRBASE_USER_ADMIN: ehrbase
+      EHRBASE_PASSWORD_ADMIN: ehrbase
+    volumes:
+      - postgres_ehrbase_data:/var/lib/postgresql/data # Monta el volumen de datos
+    networks:
+      - ehr_network # Conecta a la red interna
+    restart: unless-stopped
+
+  # Servicio de EHRbase (Servidor openEHR)
+  ehrbase:
+    image: ehrbase/ehrbase # Imagen principal de EHRbase
+    depends_on:
+      - postgres_ehrbase # Asegura que la base de datos se inicie primero
+    environment:
+      DB_URL: jdbc:postgresql://postgres_ehrbase:5432/ehrbase # URL de conexión a la DB
+      DB_USER: ehrbase_restricted # Usuario de base de datos para EHRbase
+      DB_PASS: ehrbase_restricted # Contraseña de base de datos para EHRbase
+      DB_USER_ADMIN: ehrbase
+      DB_PASS_ADMIN: ehrbase
+      SERVER_NODENAME: local.ehrbase.org
+      SPRING_PROFILES_ACTIVE: local
+    ports:
+      - "8089:8080" # Mapea el puerto 8080 del contenedor al 8089 en mi ma´quina local
+    networks:
+      - ehr_network
+    restart: unless-stopped
