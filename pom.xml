@@ -61,6 +61,41 @@
 			<artifactId>jakarta.persistence-api</artifactId>
 			<version>3.2.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.ehrbase.openehr.sdk</groupId>
+			<artifactId>response-dto</artifactId>
+			<version>2.22.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ehrbase.openehr.sdk</groupId>
+			<artifactId>web-template</artifactId>
+			<version>2.22.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.nedap.healthcare.archie</groupId>
+			<artifactId>openehr-rm</artifactId>
+			<version>3.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ehrbase.openehr.sdk</groupId>
+			<artifactId>opt-1.4</artifactId>
+			<version>2.22.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ehrbase.openehr.sdk</groupId>
+			<artifactId>client</artifactId>
+			<version>2.22.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ehrbase.openehr.sdk</groupId>
+			<artifactId>serialisation</artifactId>
+			<version>2.22.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
