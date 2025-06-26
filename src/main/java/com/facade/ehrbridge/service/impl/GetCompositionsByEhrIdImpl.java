@@ -36,10 +36,21 @@ public class GetCompositionsByEhrIdImpl implements GetCompositionsByEhrId {
     public List<String> getCompositionsEhrId(String ehrId) {
         try {
             validateAndParseUUID(ehrId, "EHR ID");
-            String aqlQuery = String.format(Aql.COMPOSITIONS_BY_EHR_ID, ehrId);
-            HttpHeaders headers = ehrBaseHeaderUtil.createAuthenticatedHeaders();
-            HttpEntity<String> request = new HttpEntity<>(aqlQuery, headers);
 
+            String aqlQuery = String.format(Aql.COMPOSITIONS_BY_EHR_ID, ehrId);
+
+            // 🔧 Construcción correcta de headers
+            HttpHeaders headers = ehrBaseHeaderUtil.createAuthenticatedHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+            // 📦 Cuerpo de la petición
+            Map<String, String> body = new HashMap<>();
+            body.put("q", aqlQuery);
+
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
+
+            // 🌐 Llamada al endpoint de EHRbase
             ResponseEntity<String> response = restTemplate.exchange(
                     ehrBaseUrl + "/rest/openehr/v1/query/aql",
                     HttpMethod.POST,
@@ -47,13 +58,16 @@ public class GetCompositionsByEhrIdImpl implements GetCompositionsByEhrId {
                     String.class
             );
 
+            // 📥 Procesamiento de la respuesta JSON
             JsonNode result = objectMapper.readTree(response.getBody());
             List<String> compositions = new ArrayList<>();
             JsonNode rows = result.path("rows");
             for (JsonNode row : rows) {
                 compositions.add(row.get(0).asText());
             }
+
             return compositions;
+
         } catch (Exception e) {
             logger.error("Error retrieving compositions for ehrId {}: {}", ehrId, e.getMessage());
             throw new EhrServiceException("Failed to retrieve compositions for ehrId: " + ehrId, e);

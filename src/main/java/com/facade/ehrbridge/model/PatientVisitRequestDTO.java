@@ -1,5 +1,7 @@
 package com.facade.ehrbridge.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 
 /**
@@ -12,7 +14,9 @@ public class PatientVisitRequestDTO {
     private LocalDateTime visitDate;
     private String location;
 
+    @NotBlank
     private ProblemDiagnosisEvaluationDTO problemDiagnosisEvaluation;
+    @NotBlank
     private MedicationOrderDTO medicationOrder;
 
 

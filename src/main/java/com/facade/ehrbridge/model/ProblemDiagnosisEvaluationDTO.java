@@ -1,11 +1,15 @@
 package com.facade.ehrbridge.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProblemDiagnosisEvaluationDTO {
 
+    @NotBlank
     private String problemDiagnosisName; // De DvCodedText
+    @NotBlank
     private List<String> cause; // De ProblemDiagnosisCauseElement
     private LocalDateTime dateTimeOfOnset; // De TemporalAcccesor
     private List<String> status; // Simplificado de Cluster

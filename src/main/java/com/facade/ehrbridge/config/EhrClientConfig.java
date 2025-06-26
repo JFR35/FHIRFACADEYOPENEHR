@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Base64;
 
 /**
- * Construir caveceras HTTP autenticadas hacia el server EHRbase
+ * Construir cabeceras HTTP autenticadas hacia el server EHRbase
  * para consumir la API de EHRbase con credenciales incluidos
  */
 @Configuration(proxyBeanMethods = false)
