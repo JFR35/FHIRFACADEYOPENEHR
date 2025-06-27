@@ -26,7 +26,7 @@ services:
 
   # Servicio de EHRbase (Servidor openEHR)
   ehrbase:
-    image: ehrbase/ehrbase # Imagen principal de EHRbase
+    image: ehrbase/ehrbase  # Imagen principal de EHRbase
     depends_on:
       - postgres_ehrbase # Asegura que la base de datos se inicie primero
     environment:

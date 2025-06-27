@@ -1,27 +1,31 @@
 package com.facade.ehrbridge.controller;
 
-import com.facade.ehrbridge.service.VerifyEhrConnectionUseCase;
+
+import com.facade.ehrbridge.service.VerifyEhrConn;
+import com.facade.ehrbridge.service.exception.EhrbaseConnectionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/ehrcomposition")
+@RequestMapping("/ehr")
 public class VerifyEhrConnController {
 
-    private final VerifyEhrConnectionUseCase verifyConnection;
+    private final VerifyEhrConn verifyEhrConn;
 
-    public VerifyEhrConnController(VerifyEhrConnectionUseCase verifyConnection) {
-        this.verifyConnection = verifyConnection;
+    public VerifyEhrConnController(VerifyEhrConn verifyEhrConn) {
+        this.verifyEhrConn = verifyEhrConn;
     }
 
-    @GetMapping("/verify-ehrbase")
-    public ResponseEntity<String> verifyEhrbaseConnection() {
-        if (verifyConnection.verifyConnection()) {
-            return ResponseEntity.ok("Connection to Ehrbase successful!");
-        } else {
-            return ResponseEntity.status(500).body("Failed to connect to Ehrbase.");
+    @GetMapping("/verify-conn")
+    public ResponseEntity<String> verifyConn() {
+        try {
+            verifyEhrConn.verifyEhrconn();
+            return ResponseEntity.ok("Conexión exitosa con EHRbase.");
+        } catch (EhrbaseConnectionException e) {
+            return ResponseEntity.status(502).body("No se pudo conectar con EHRbase: " + e.getMessage());
         }
     }
 }
+
