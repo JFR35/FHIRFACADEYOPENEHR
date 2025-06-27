@@ -25,14 +25,9 @@ public class EhrBaseConfig {
      */
     @Value("${ehrbase.url}")
     private String ehrBaseUrl;
+    @Value("${ehrbase.rest.path}")
+    private String restPath;
 
-    @Value("${ehrbase.templates.path}")
-    private String templatesPath;
-
-    @Bean
-    public FileBasedTemplateProvider templateProvider() {
-        return new FileBasedTemplateProvider(Paths.get(templatesPath));
-    }
     /**
      * Crea una instancia de {@link  OpenEhrClient} utilizando la URL configurada.
      * @return cliente OpenEHR configurado con {@link DefaultRestClient}
@@ -41,11 +36,14 @@ public class EhrBaseConfig {
     @Bean
     public OpenEhrClient openEhrClient() {
         try {
-            OpenEhrClientConfig config = new OpenEhrClientConfig(URI.create(ehrBaseUrl));
+            // Construye la URL completa correctamente
+            String fullUrl = ehrBaseUrl + restPath;
+
+            OpenEhrClientConfig config = new OpenEhrClientConfig(URI.create(fullUrl));
             return new DefaultRestClient(config);
         } catch (Exception e) {
-            logger.error("Error inicializando OpenEhrClient: {}", e.getMessage(), e);
-            throw new RuntimeException("Error inicializando OpenEhrClient", e);
+            throw new RuntimeException("Error configuring EHRbase client", e);
         }
     }
+
 }
