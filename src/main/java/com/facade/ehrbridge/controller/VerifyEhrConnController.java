@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/ehrcomposition")
-public class CompositionController {
+public class VerifyEhrConnController {
 
     private final VerifyEhrConnectionUseCase verifyConnection;
 
-    public CompositionController(VerifyEhrConnectionUseCase verifyConnection) {
+    public VerifyEhrConnController(VerifyEhrConnectionUseCase verifyConnection) {
         this.verifyConnection = verifyConnection;
     }
 
