@@ -1,4 +1,4 @@
-package com.facade.openEHR.patientvisitcomposition.definition;
+package com.facade.ehrbridge.patientvisitcomposition.definition;
 
 import com.nedap.archie.rm.archetyped.FeederAudit;
 import com.nedap.archie.rm.datastructures.Cluster;

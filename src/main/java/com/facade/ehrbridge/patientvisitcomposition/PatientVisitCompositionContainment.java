@@ -1,7 +1,7 @@
-package com.facade.openEHR.patientvisitcomposition;
+package com.facade.ehrbridge.patientvisitcomposition;
 
-import com.facade.openEHR.patientvisitcomposition.definition.MedicationOrderInstruction;
-import com.facade.openEHR.patientvisitcomposition.definition.ProblemDiagnosisEvaluation;
+import com.facade.ehrbridge.patientvisitcomposition.definition.MedicationOrderInstruction;
+import com.facade.ehrbridge.patientvisitcomposition.definition.ProblemDiagnosisEvaluation;
 import com.nedap.archie.rm.archetyped.FeederAudit;
 import com.nedap.archie.rm.datastructures.Cluster;
 import com.nedap.archie.rm.generic.Participation;
